@@ -1,0 +1,155 @@
+<template>
+   <div class="guardar-container">
+    <form class="guardar-form">
+      <button type="button" @click="guardar" class="btn-guardar">
+        Guardar Estudiante
+      </button>
+      <div class="resultado-section">
+        <h3>Información del Estudiante</h3>
+        
+        <div class="form-group">
+          <label for="id_name">Nombre:</label>
+          <input id="id_name" type="text" v-model="nombre">
+        </div>
+        
+        <div class="form-group">
+          <label for="id_apellido">Apellido:</label>
+          <input id="id_apellido" type="text" v-model="apellido">
+        </div>
+        
+        <div class="form-group">
+          <label for="id_genero">Género:</label>
+          <input id="id_genero" type="text" v-model="genero">
+        </div>
+        
+        <div class="form-group">
+          <label for="id_provincia">Provincia:</label>
+          <input id="id_provincia" type="text" v-model="provincia">
+        </div>
+        
+        <div class="form-group">
+          <label for="id_fechaNac">Fecha de Nacimiento:</label>
+          <input id="id_fechaNac" type="text" v-model="fechaNac">
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import { guardarFacade } from '../client/matriculaClient.js';
+export default {
+    data() {
+        return {
+            nombre: '',
+            apellido: '',
+            genero: '',
+            provincia: '',
+            fechaNac: '',
+        }
+    },
+    methods: {
+        async guardar() {
+      try {
+        const estudianteEjemplo = {
+          nombre: this.nombre,
+          apellido: this.apellido,
+          genero: this.genero,
+          provincia: this.provincia,
+          fechaNac: this.fechaNac
+        };
+        const resultado = await guardarFacade(estudianteEjemplo);
+        console.log('Guardar - Estudiante guardado:', resultado);
+      } catch (error) {
+        console.error('Error en guardar:', error);
+      }
+    },
+    }
+}
+</script>
+
+<style> 
+.guardar-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.guardar-form {
+  background: #022140;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 1px;
+  font-weight: 600;
+  color: #dce6f0;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group input[readonly] {
+  background-color: #f1f3f4;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-group textarea[readonly] {
+  background-color: #f1f3f4;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.btn-guardar {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.btn-guardar:hover {
+  background-color: #0056b3;
+}
+
+.resultado-section h3 {
+  margin: 0 0 1.5rem 0;
+  color: #2c3e50;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+</style>

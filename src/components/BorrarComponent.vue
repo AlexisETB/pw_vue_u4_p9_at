@@ -78,7 +78,6 @@ export default {
         alert('Por favor ingresa un ID');
         return;
       }
-      
       const resultado = await consultarPorIdFacade(this.id).catch(error => {
           console.error('Error en consultarPorId:', error);
           alert('Error al consultar estudiante');

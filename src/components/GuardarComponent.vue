@@ -29,7 +29,7 @@
         
         <div class="form-group">
           <label for="id_fechaNac">Fecha de Nacimiento:</label>
-          <input id="id_fechaNac" type="text" v-model="fechaNac">
+          <input id="id_fechaNac" type="datetime-local" v-model="fechaNac">
         </div>
       </div>
     </form>

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { actualizarFacade } from '../client/matriculaClient.js';
+import { actualizarFacade, inicializarAuth } from '../client/matriculaClient.js';
 export default {
     data() {
         return {
@@ -53,6 +53,12 @@ export default {
             fechaNac: '',
         }
     },
+     async mounted() {
+    // Inicializa el token cuando el componente se monta
+    console.log('Componente Actualizar montado - Inicializando token...');
+    await inicializarAuth();
+    console.log('Token inicializado correctamente');
+  },
     methods: {
     async actualizar() {
       try {

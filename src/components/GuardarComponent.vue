@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { guardarFacade } from '../client/matriculaClient.js';
+import { guardarFacade, inicializarAuth } from '../client/matriculaClient.js';
 export default {
     data() {
         return {
@@ -47,6 +47,12 @@ export default {
             provincia: '',
             fechaNac: '',
         }
+    },
+    async mounted() {
+        // Inicializa el token cuando el componente se monta
+        console.log('Componente Guardar montado - Inicializando token...');
+        await inicializarAuth();
+        console.log('Token inicializado correctamente');
     },
     methods: {
         async guardar() {

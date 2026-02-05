@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { actualizarParcialFacade } from '../client/matriculaClient.js';
+import { actualizarParcialFacade, inicializarAuth } from '../client/matriculaClient.js';
 export default {
     data() {
         return {
@@ -36,6 +36,12 @@ export default {
             provincia: '',
         }
     },
+     async mounted() {
+    // Inicializa el token cuando el componente se monta
+    console.log('Componente ActualizarParcial montado - Inicializando token...');
+    await inicializarAuth();
+    console.log('Token inicializado correctamente');
+  },
     methods: {
     async actualizarParcial() {
       try {

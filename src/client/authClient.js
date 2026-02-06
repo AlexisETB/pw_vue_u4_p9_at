@@ -1,13 +1,12 @@
 import axios from 'axios';
-const user = "adm1";
-const password = "1234a";
+const URL = "http://localhost:8082/auth/token";
 
-export const obtenerToken = async () => {
-    const data = axios.get(`http://localhost:8082/auth/token?user=${user}&password=${password}`).then(response => response.data);
+export const obtenerToken = async ({ user, password }) => {
+    const data = axios.get(`${URL}?user=${user}&password=${password}`).then(response => response.data);
     return data;
 }
 
-export const obtenerTokenFacade = async () => {
-    return await obtenerToken();
+export const obtenerTokenFacade = async ({ user, password }) => {
+    return await obtenerToken({ user, password });
 }
 

@@ -10,8 +10,8 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        requiereAutorizacion: true,
-        esPublica: false
+        requiereAutorizacion: false,
+        esPublica: true
       }
     },
     {
@@ -36,8 +36,8 @@ const router = createRouter({
       name: 'consultarPorId',
       component: () => import('../views/ConsultarPorIdView.vue'),
       meta: {
-        requiereAutorizacion: false,
-        esPublica: true
+        requiereAutorizacion: true,
+        esPublica: false
       }
     },
     {
@@ -90,15 +90,11 @@ const router = createRouter({
 
 /*Config del Guardian de Rutas*/
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiereAutorizacion) {
-    const estaAutenticado = localStorage.getItem("estaAutenticado") === 'true';
-    const token = localStorage.getItem("token");
-    if (!estaAutenticado || !token) {
-      console.log("No autorizado. Redirigiendo a login...");
-      next({ name: 'login' });
-    } else {
-      next();
-    }
+  const estaAutenticado = localStorage.getItem("estaAutenticado");
+  const requiereAutorizacion = to.meta.requiereAutorizacion;
+  if (requiereAutorizacion && !estaAutenticado) {
+    console.log("No autorizado. Redirigiendo a login...");
+    next({ name: 'login' });
   } else {
     next();
   }

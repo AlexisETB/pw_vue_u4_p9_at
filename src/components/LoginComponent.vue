@@ -9,9 +9,10 @@
             <input type="password" id="password" placeholder="Contraseña" v-model="password">
         </div>
         <div>
-            <button @click="login" type="submit">Login</button>
+            <button @click="login" type="button">Login</button>
         </div>
     </form>
+    <p>{{ message }}</p>   
   </div>
 </template>
 
@@ -22,25 +23,26 @@ export default {
     data(){
         return {
             usuario: '',
-            password:''
+            password:'',
+            message: ''
         };
     },
     methods:{
         async login(){
             try {
-                const token = await obtenerTokenFacade();
-                if (token) {
-                    localStorage.setItem("token", token);
+                const token = await obtenerTokenFacade({ user: this.usuario, password: this.password });
+                if (token && token.accessToken) {
+                    localStorage.setItem("token", token.accessToken);
                     localStorage.setItem("estaAutenticado", true);
                     console.log("Login exitoso");
-                    this.$router.push('/'); // Redirige al home después del login
+                    this.message = "Login exitoso";
                 } else {
                     console.error("Error al obtener el token");
-                    alert("Usuario o contraseña incorrectos");
+                    this.message = "Usuario o contraseña incorrectos";
                 }
             } catch (error) {
                 console.error("Error en el login:", error);
-                alert("Ocurrió un error al intentar iniciar sesión");
+                this.message = "Ocurrió un error al intentar iniciar sesión";
             }
         }
     }
@@ -72,5 +74,13 @@ button{
     padding: 8px;
     cursor: pointer;
     background: rgb(17, 238, 17);
+}
+button:hover{
+    background: rgb(5, 77, 5);
+}
+p{
+    color: rgb(233, 233, 233);
+    margin-top: 10px;
+    font-weight: bold;
 }
 </style>

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +13,11 @@ const router = createRouter({
         requiereAutorizacion: true,
         esPublica: false
       }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
     },
     {
       path: '/about',
@@ -85,11 +91,15 @@ const router = createRouter({
 /*Config del Guardian de Rutas*/
 router.beforeEach((to, from, next) => {
   if (to.meta.requiereAutorizacion) {
-    /*Envia a login*/
-    console.log("No autorizado. Redirigiendo a login...");
+    const estaAutenticado = localStorage.getItem("estaAutenticado") === 'true';
+    const token = localStorage.getItem("token");
+    if (!estaAutenticado || !token) {
+      console.log("No autorizado. Redirigiendo a login...");
+      next({ name: 'login' });
+    } else {
+      next();
+    }
   } else {
-    /*Deja pasar*/
-    console.log("Ruta pública. Deja pasar...");
     next();
   }
 })
